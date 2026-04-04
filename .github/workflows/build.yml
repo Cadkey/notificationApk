@@ -45,13 +45,15 @@ jobs:
 
       - name: Sign APK
         run: |
+          $ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | tail -1)/zipalign -v 4 \
+            app/build/outputs/apk/release/app-release-unsigned.apk \
+            app/build/outputs/apk/release/app-release-aligned.apk
           jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
             -keystore keystore.jks \
             -storepass notifbridge123 -keypass notifbridge123 \
-            app/build/outputs/apk/release/app-release-unsigned.apk notifbridge
-          $ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | tail -1)/zipalign -v 4 \
-            app/build/outputs/apk/release/app-release-unsigned.apk \
-            app/build/outputs/apk/release/NotifBridge.apk
+            app/build/outputs/apk/release/app-release-aligned.apk notifbridge
+          cp app/build/outputs/apk/release/app-release-aligned.apk \
+             app/build/outputs/apk/release/NotifBridge.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
