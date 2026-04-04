@@ -43,17 +43,19 @@ jobs:
       - name: Build APK
         run: ./gradlew assembleRelease --stacktrace
 
-      - name: Sign APK
+      - name: Sign and align APK
         run: |
-          $ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | tail -1)/zipalign -v 4 \
+          BTDIR=$ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | tail -1)
+          $BTDIR/zipalign -v 4 \
             app/build/outputs/apk/release/app-release-unsigned.apk \
             app/build/outputs/apk/release/app-release-aligned.apk
-          jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
-            -keystore keystore.jks \
-            -storepass notifbridge123 -keypass notifbridge123 \
-            app/build/outputs/apk/release/app-release-aligned.apk notifbridge
-          cp app/build/outputs/apk/release/app-release-aligned.apk \
-             app/build/outputs/apk/release/NotifBridge.apk
+          $BTDIR/apksigner sign \
+            --ks keystore.jks \
+            --ks-pass pass:notifbridge123 \
+            --key-pass pass:notifbridge123 \
+            --ks-key-alias notifbridge \
+            --out app/build/outputs/apk/release/NotifBridge.apk \
+            app/build/outputs/apk/release/app-release-aligned.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
