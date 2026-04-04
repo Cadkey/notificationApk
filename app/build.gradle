@@ -1,0 +1,22 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.cadkey.notif2nas'
+    compileSdk 34
+    defaultConfig {
+        applicationId "com.cadkey.notif2nas"
+        minSdk 26
+        targetSdk 34
+        versionCode 102
+        versionName "1.02"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+}
