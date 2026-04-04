@@ -1,0 +1,64 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Download gradle wrapper jar
+        run: |
+          curl -sL "https://github.com/gradle/gradle/raw/v8.2.0/gradle/wrapper/gradle-wrapper.jar" \
+            -o gradle/wrapper/gradle-wrapper.jar || \
+          wget -q "https://raw.githubusercontent.com/gradle/gradle-wrapper-jar/main/gradle-wrapper.jar" \
+            -O gradle/wrapper/gradle-wrapper.jar
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Generate keystore
+        run: |
+          keytool -genkeypair -v -keystore keystore.jks -alias notif2nas \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=Notif2Nas, OU=Cadkey, O=Cadkey, L=Paris, S=IDF, C=FR" \
+            -storepass cadkey2nas -keypass cadkey2nas
+
+      - name: Build APK
+        run: ./gradlew assembleRelease --stacktrace
+
+      - name: Sign and align APK
+        run: |
+          BTDIR=$ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | tail -1)
+          $BTDIR/zipalign -v 4 \
+            app/build/outputs/apk/release/app-release-unsigned.apk \
+            app/build/outputs/apk/release/app-release-aligned.apk
+          $BTDIR/apksigner sign \
+            --ks keystore.jks \
+            --ks-pass pass:cadkey2nas \
+            --key-pass pass:cadkey2nas \
+            --ks-key-alias notif2nas \
+            --out app/build/outputs/apk/release/Notif2Nas.apk \
+            app/build/outputs/apk/release/app-release-aligned.apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Notif2Nas
+          path: app/build/outputs/apk/release/Notif2Nas.apk
