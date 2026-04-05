@@ -79,6 +79,7 @@ public class MainActivity extends Activity {
 
         Button btnHelp = new Button(this);
         btnHelp.setText("?");
+        btnHelp.setPadding(0, 0, 0, 8);
         btnHelp.setTextColor(Color.WHITE);
         btnHelp.setTextSize(16);
         btnHelp.setTypeface(null, Typeface.BOLD);
@@ -95,7 +96,7 @@ public class MainActivity extends Activity {
         LinearLayout accessRow = new LinearLayout(this);
         accessRow.setOrientation(LinearLayout.HORIZONTAL);
 
-        Button btnSpecial = makeBtn("Acces special", ACCENT, 1f);
+        Button btnSpecial = makeBtn("Accès spécial", ACCENT, 1f);
         btnSpecial.setOnClickListener(v -> {
             try {
                 startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
@@ -127,7 +128,7 @@ public class MainActivity extends Activity {
         addSpace(root, 32);
 
         // Règles
-        root.addView(makeSection("Regles configurees"));
+        root.addView(makeSection("Règles configurées"));
         listContainer = new LinearLayout(this);
         listContainer.setOrientation(LinearLayout.VERTICAL);
         root.addView(listContainer);
@@ -136,7 +137,7 @@ public class MainActivity extends Activity {
         addSpace(root, 28);
 
         // Ajouter
-        root.addView(makeSection("Ajouter une regle"));
+        root.addView(makeSection("Ajouter une règle"));
 
         EditText etPkg = makeField("Package (ex: com.hyundai.oneapp.eu)");
         root.addView(etPkg);
@@ -170,7 +171,7 @@ public class MainActivity extends Activity {
                     .apply();
             etPkg.setText(""); etUrl.setText(""); etToken.setText("");
             refreshList();
-            Toast.makeText(this, "Regle ajoutee", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Règle ajoutée", Toast.LENGTH_SHORT).show();
         });
         root.addView(btnAdd);
 
@@ -194,7 +195,7 @@ public class MainActivity extends Activity {
         int count = prefs.getInt("count", 0);
         if (count == 0) {
             TextView empty = new TextView(this);
-            empty.setText("Aucune regle configuree.");
+            empty.setText("Aucune règle configurée.");
             empty.setTextColor(TEXT_SUB);
             empty.setTextSize(14);
             empty.setPadding(0, 16, 0, 16);
@@ -217,7 +218,7 @@ public class MainActivity extends Activity {
             card.setLayoutParams(cp);
 
             TextView label = new TextView(this);
-            label.setText("Regle " + (idx + 1));
+            label.setText("Règle " + (idx + 1));
             label.setTextColor(ACCENT2);
             label.setTextSize(13);
             label.setTypeface(null, Typeface.BOLD);
@@ -289,21 +290,21 @@ public class MainActivity extends Activity {
         String msg =
             "Notif2Nas intercepte les notifications Android et les envoie vers un script PHP sur votre NAS via HTTPS.\n\n" +
             "ACTIVATION\n" +
-            "1. Appuyez sur 'Acces special'\n" +
+            "1. Appuyez sur 'Accès spécial'\n" +
             "2. Dans la liste, activez Notif2Nas\n" +
             "3. Confirmez l'autorisation\n\n" +
             "CONFIGURATION\n" +
-            "Package : identifiant de l'app Android a surveiller (ex: com.hyundai.oneapp.eu)\n" +
-            "URL PHP : adresse HTTPS de votre script sur le NAS\n" +
-            "Token : chaine secrete envoyee dans le header X-Token pour securiser les appels\n\n" +
-            "JSON ENVOYE\n" +
+            "Package: identifiant de l'app Android à surveiller (ex: com.hyundai.oneapp.eu)\n" +
+            "URL PHP: adresse HTTPS de votre script sur le NAS\n" +
+            "Token: chaîne secrète envoyée dans le header X-Token pour sécuriser les appels\n\n" +
+            "JSON ENVOYÉ\n" +
             "{ app, title, text, time }\n\n" +
-            "SECURITE\n" +
-            "- Aucune donnee preinstallée dans l'app\n" +
-            "- Tout est stocke localement sur l'appareil\n" +
-            "- Desinstaller l'app supprime toutes les donnees\n" +
-            "- Le token valide chaque requete cote serveur\n\n" +
-            "Une fois configuree, l'app tourne en arriere-plan sans interface.";
+            "SÉCURITÉ\n" +
+            "- Aucune donnée préinstallée dans l'app\n" +
+            "- Les données saisies sont stockés localement sur l'appareil\n" +
+            "- Désinstaller l'app supprime toutes les données\n" +
+            "- Le token valide chaque requête coté serveur\n\n" +
+            "Une fois configurée, l'app tourne en arrière-plan sans interface.";
 
         new AlertDialog.Builder(this)
                 .setTitle("Notif2Nas — Aide")
