@@ -92,38 +92,13 @@ public class MainActivity extends Activity {
 
         root.addView(header);
 
-        // Boutons accès
-        LinearLayout accessRow = new LinearLayout(this);
-        accessRow.setOrientation(LinearLayout.HORIZONTAL);
-
-        Button btnSpecial = makeBtn("Accès spécial", ACCENT, 1f);
-        btnSpecial.setOnClickListener(v -> {
-            try {
-                startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-            } catch (Exception e) {
-                startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
-            }
-        });
-
-        Button btnNotif = makeBtn("Notifications", 0xFF37474F, 1f);
-        btnNotif.setOnClickListener(v -> {
-            Intent i = new Intent();
-            i.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
-            i.putExtra("android.provider.extra.APP_PACKAGE", getPackageName());
-            try { startActivity(i); } catch (Exception e) {
-                startActivity(new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS));
-            }
-        });
-
-        LinearLayout.LayoutParams bp1 = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
-        bp1.setMargins(0, 0, 8, 0);
-        btnSpecial.setLayoutParams(bp1);
-        LinearLayout.LayoutParams bp2 = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
-        btnNotif.setLayoutParams(bp2);
-
-        accessRow.addView(btnSpecial);
-        accessRow.addView(btnNotif);
-        root.addView(accessRow);
+        // Boutons accès notifications
+        Button btnAccess = makeBtn("Activer acces aux notifications", ACCENT, 0f);
+        btnAccess.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        btnAccess.setOnClickListener(v ->
+                startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)));
+        root.addView(btnAccess);
 
         addSpace(root, 32);
 
@@ -179,7 +154,7 @@ public class MainActivity extends Activity {
 
         // Footer
         TextView footer = new TextView(this);
-        footer.setText("© Cadkey  v1.02");
+        footer.setText("© Cadkey  v1.04");
         footer.setTextSize(11);
         footer.setTextColor(0xFF444466);
         footer.setPadding(0, 0, 0, 0);
