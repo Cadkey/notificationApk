@@ -93,7 +93,7 @@ public class MainActivity extends Activity {
         root.addView(header);
 
         // Bouton 1 - Paramètres restreints
-        Button btnRestreint = makeBtn("Autoriser \u22EE paramètres restreints", ACCENT, 0f);
+        Button btnRestreint = makeBtn("Autoriser paramètres restreints", ACCENT, 0f);
         btnRestreint.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         btnRestreint.setOnClickListener(v -> {
