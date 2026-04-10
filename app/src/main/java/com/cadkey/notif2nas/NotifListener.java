@@ -8,8 +8,13 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NotifListener extends NotificationListenerService {
+
+    private final Map<String, Long> lastSent = new HashMap<>();
+    private static final long DEDUP_MS = 3000;
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
@@ -29,9 +34,19 @@ public class NotifListener extends NotificationListenerService {
             if (sbn.getNotification().extras != null) {
                 CharSequence t = sbn.getNotification().extras.getCharSequence("android.title");
                 CharSequence b = sbn.getNotification().extras.getCharSequence("android.text");
-                if (t != null) title = t.toString();
-                if (b != null) text  = b.toString();
+                if (t != null) title = t.toString().trim();
+                if (b != null) text  = b.toString().trim();
             }
+
+            // Ignorer si title ET text sont vides
+            if (title.isEmpty() && text.isEmpty()) continue;
+
+            // Anti-doublon : ignorer si meme contenu dans les 3 secondes
+            String key = pkg + "|" + title + "|" + text;
+            long now = System.currentTimeMillis();
+            Long last = lastSent.get(key);
+            if (last != null && (now - last) < DEDUP_MS) continue;
+            lastSent.put(key, now);
 
             final String json = "{\"app\":\"" + escapeJson(pkg) + "\","
                     + "\"title\":\"" + escapeJson(title) + "\","

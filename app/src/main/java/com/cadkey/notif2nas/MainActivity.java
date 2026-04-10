@@ -79,11 +79,11 @@ public class MainActivity extends Activity {
 
         Button btnHelp = new Button(this);
         btnHelp.setText("?");
-        btnHelp.setPadding(0, 0, 0, 8);
         btnHelp.setTextColor(Color.WHITE);
         btnHelp.setTextSize(16);
         btnHelp.setTypeface(null, Typeface.BOLD);
         btnHelp.setBackground(makeRoundBg(ACCENT, 24));
+        btnHelp.setPadding(0, 0, 0, 8);
         LinearLayout.LayoutParams helpLp = new LinearLayout.LayoutParams(96, 96);
         helpLp.setMargins(16, 0, 0, 0);
         btnHelp.setLayoutParams(helpLp);
@@ -92,17 +92,30 @@ public class MainActivity extends Activity {
 
         root.addView(header);
 
-        // Boutons accès notifications
-        Button btnAccess = makeBtn("Activer acces aux notifications", ACCENT, 0f);
-        btnAccess.setLayoutParams(new LinearLayout.LayoutParams(
+        // Bouton 1 - Paramètres restreints
+        Button btnRestreint = makeBtn("Autoriser \u22EE paramètres restreints", ACCENT, 0f);
+        btnRestreint.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        btnAccess.setOnClickListener(v ->
+        btnRestreint.setOnClickListener(v -> {
+            Intent i = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            i.setData(android.net.Uri.fromParts("package", getPackageName(), null));
+            startActivity(i);
+        });
+        root.addView(btnRestreint);
+
+        addSpace(root, 8);
+
+        // Bouton 2 - Accès notifications
+        Button btnAcces = makeBtn("Autoriser accès aux notifications", 0xFF37474F, 0f);
+        btnAcces.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        btnAcces.setOnClickListener(v ->
                 startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)));
-        root.addView(btnAccess);
+        root.addView(btnAcces);
 
         addSpace(root, 32);
 
-        // Règles
+        // Regles
         root.addView(makeSection("Règles configurées"));
         listContainer = new LinearLayout(this);
         listContainer.setOrientation(LinearLayout.VERTICAL);
@@ -118,7 +131,7 @@ public class MainActivity extends Activity {
         root.addView(etPkg);
         addSpace(root, 10);
 
-        EditText etUrl = makeField("URL PHP (https://...)");
+        EditText etUrl = makeField("URL (https://...)");
         root.addView(etUrl);
         addSpace(root, 10);
 
@@ -154,10 +167,9 @@ public class MainActivity extends Activity {
 
         // Footer
         TextView footer = new TextView(this);
-        footer.setText("© Cadkey  v1.04");
+        footer.setText("\u00A9 Cadkey  v1.05");
         footer.setTextSize(11);
         footer.setTextColor(0xFF444466);
-        footer.setPadding(0, 0, 0, 0);
         footer.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
         root.addView(footer);
 
@@ -263,23 +275,32 @@ public class MainActivity extends Activity {
 
     private void showHelp() {
         String msg =
-            "Notif2Nas intercepte les notifications Android et les envoie vers un script PHP sur votre NAS via HTTPS.\n\n" +
-            "ACTIVATION\n" +
-            "1. Appuyez sur 'Accès spécial'\n" +
-            "2. Dans la liste, activez Notif2Nas\n" +
-            "3. Confirmez l'autorisation\n\n" +
+            "Notif2Nas intercepte les notifications Android et les envoie vers un script sur votre NAS via HTTPS.\n\n" +
+            "ACTIVATION (2 étapes obligatoires)\n\n" +
+            "1. Bouton 'Autoriser \u22EE paramètres restreints'\n" +
+            "   Paramètres > Applications > Voir toutes les applis\n" +
+            "   > Notif2Nas > appuyer sur '\u22EE' en haut a droite\n" +
+            "   > Autoriser les paramètres restreints\n\n" +
+            "2. Bouton 'Autoriser accès aux notifications'\n" +
+            "   Paramètres > Applications > Accès spéciaux des applis\n" +
+            "   > Notifications : lecture, contrôle et réponse\n" +
+            "   > Notif2Nas > Autoriser l'accès aux notifications\n\n" +
+            "Les boutons vous emmenent à chaque étape jusqu'à Notif2Nas.\n\n" +
             "CONFIGURATION\n" +
-            "Package: identifiant de l'app Android à surveiller (ex: com.hyundai.oneapp.eu)\n" +
+            "Package: Identifiant de l'app Android à surveiller\n" +
+            "  ex: com.hyundai.oneapp.eu\n" +
             "URL PHP: adresse HTTPS de votre script sur le NAS\n" +
-            "Token: chaîne secrète envoyée dans le header X-Token pour sécuriser les appels\n\n" +
+            "Token: chaîne secrète envoyée dans le header X-Token\n" +
+            "  pour sécuriser les appels coté serveur\n\n" +
             "JSON ENVOYÉ\n" +
             "{ app, title, text, time }\n\n" +
             "SÉCURITÉ\n" +
-            "- Aucune donnée préinstallée dans l'app\n" +
-            "- Les données saisies sont stockés localement sur l'appareil\n" +
+            "- Aucune donnée n'est préinstallée dans l'app\n" +
+            "- Tout est stocké localement sur l'appareil\n" +
             "- Désinstaller l'app supprime toutes les données\n" +
             "- Le token valide chaque requête coté serveur\n\n" +
-            "Une fois configurée, l'app tourne en arrière-plan sans interface.";
+            "Une fois configurée, l'app tourne en arrière-plan\n" +
+            "sans interface. On l'oublie.";
 
         new AlertDialog.Builder(this)
                 .setTitle("Notif2Nas — Aide")
@@ -331,8 +352,6 @@ public class MainActivity extends Activity {
         ed.putInt("count", count-1);
         ed.apply();
     }
-
-    // --- UI helpers ---
 
     private GradientDrawable makeRoundBg(int color, int radius) {
         GradientDrawable gd = new GradientDrawable();
