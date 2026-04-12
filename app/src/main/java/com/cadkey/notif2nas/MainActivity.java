@@ -131,7 +131,7 @@ public class MainActivity extends Activity {
         root.addView(etPkg);
         addSpace(root, 10);
 
-        EditText etUrl = makeField("URL (https://...)");
+        EditText etUrl = makeField("URL du script (ex: https://appli.mondomain/notif.php)");
         root.addView(etUrl);
         addSpace(root, 10);
 
@@ -171,7 +171,7 @@ public class MainActivity extends Activity {
         try {
             versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         } catch (Exception ignored) {}
-        footer.setText("\u00A9 Cadkey  v" + versionName);
+        footer.setText("\u00A9 Cadkey MT  v" + versionName);
         footer.setTextSize(11);
         footer.setTextColor(0xFF444466);
         footer.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
@@ -279,32 +279,30 @@ public class MainActivity extends Activity {
 
     private void showHelp() {
         String msg =
-            "Notif2Nas intercepte les notifications Android et les envoie vers un script sur votre NAS via HTTPS.\n\n" +
+            "Notif2Nas intercepte les notifications Android et les envoie en HTTPS vers un script de votre NAS.\n\n" +
             "ACTIVATION (2 étapes obligatoires)\n\n" +
-            "1. Bouton 'Autoriser \u22EE paramètres restreints'\n" +
+            "1. Bouton 'Autoriser paramètres restreints'\n" +
             "   Paramètres > Applications > Voir toutes les applis\n" +
-            "   > Notif2Nas > appuyer sur '\u22EE' en haut a droite\n" +
+            "   > Notif2Nas > appuyer sur '\u22EE' en haut à droite\n" +
             "   > Autoriser les paramètres restreints\n\n" +
             "2. Bouton 'Autoriser accès aux notifications'\n" +
             "   Paramètres > Applications > Accès spéciaux des applis\n" +
             "   > Notifications : lecture, contrôle et réponse\n" +
             "   > Notif2Nas > Autoriser l'accès aux notifications\n\n" +
-            "Les boutons vous emmenent à chaque étape jusqu'à Notif2Nas.\n\n" +
+            "Les boutons vous guident à chaque étape jusqu'à Notif2Nas.\n\n" +
             "CONFIGURATION\n" +
             "Package: Identifiant de l'app Android à surveiller\n" +
-            "  ex: com.hyundai.oneapp.eu\n" +
-            "URL PHP: adresse HTTPS de votre script sur le NAS\n" +
-            "Token: chaîne secrète envoyée dans le header X-Token\n" +
-            "  pour sécuriser les appels coté serveur\n\n" +
+            "URL: adresse HTTPS de votre script sur le NAS\n" +
+            "Token: mot de passe fort envoyé dans le header X-Token\n" +
+            "  afin d'authentifier les appels par le script\n\n" +
             "JSON ENVOYÉ\n" +
             "{ app, title, text, time }\n\n" +
             "SÉCURITÉ\n" +
-            "- Aucune donnée n'est préinstallée dans l'app\n" +
-            "- Tout est stocké localement sur l'appareil\n" +
+            "- Aucune donnée n'est préinstallée dans l'application\n" +
+            "- Toutes les données saisies sont stockées localement sur l'appareil\n" +
             "- Désinstaller l'app supprime toutes les données\n" +
             "- Le token valide chaque requête coté serveur\n\n" +
-            "Une fois configurée, l'app tourne en arrière-plan\n" +
-            "sans interface. On l'oublie.";
+            "Une fois configurée, l'app tourne en arrière-plan, sans interface et silencieuse. On l'oublie.";
 
         new AlertDialog.Builder(this)
                 .setTitle("Notif2Nas — Aide")
@@ -316,7 +314,7 @@ public class MainActivity extends Activity {
     private void sendTest(String urlStr, String token, String pkg) {
         String json = "{\"app\":\"" + pkg + "\","
                 + "\"title\":\"Test Notif2Nas\","
-                + "\"text\":\"Notification de test\","
+                + "\"text\":\"Ceci est une notification de test réussi\","
                 + "\"time\":" + System.currentTimeMillis() + "}";
         new Thread(() -> {
             try {
