@@ -167,7 +167,11 @@ public class MainActivity extends Activity {
 
         // Footer
         TextView footer = new TextView(this);
-        footer.setText("\u00A9 Cadkey  v1.05");
+        String versionName = "?";
+        try {
+            versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (Exception ignored) {}
+        footer.setText("\u00A9 Cadkey  v" + versionName);
         footer.setTextSize(11);
         footer.setTextColor(0xFF444466);
         footer.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
