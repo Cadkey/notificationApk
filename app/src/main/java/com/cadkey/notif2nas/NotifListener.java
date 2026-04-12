@@ -4,6 +4,8 @@ import android.content.SharedPreferences;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
+import org.json.JSONObject;
+
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -41,17 +43,25 @@ public class NotifListener extends NotificationListenerService {
             // Ignorer si title ET text sont vides
             if (title.isEmpty() && text.isEmpty()) continue;
 
-            // Anti-doublon : ignorer si meme contenu dans les 3 secondes
+            // Anti-doublon
             String key = pkg + "|" + title + "|" + text;
             long now = System.currentTimeMillis();
             Long last = lastSent.get(key);
             if (last != null && (now - last) < DEDUP_MS) continue;
             lastSent.put(key, now);
 
-            final String json = "{\"app\":\"" + escapeJson(pkg) + "\","
-                    + "\"title\":\"" + escapeJson(title) + "\","
-                    + "\"text\":\"" + escapeJson(text) + "\","
-                    + "\"time\":" + sbn.getPostTime() + "}";
+            final String json;
+            try {
+                JSONObject obj = new JSONObject();
+                obj.put("app", pkg);
+                obj.put("title", title);
+                obj.put("text", text);
+                obj.put("time", sbn.getPostTime());
+                json = obj.toString();
+            } catch (Exception e) {
+                continue;
+            }
+
             final String fUrl   = url;
             final String fToken = token;
 
@@ -59,7 +69,7 @@ public class NotifListener extends NotificationListenerService {
                 try {
                     HttpURLConnection conn = (HttpURLConnection) new URL(fUrl).openConnection();
                     conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Content-Type", "application/json");
+                    conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
                     if (!fToken.isEmpty()) conn.setRequestProperty("X-Token", fToken);
                     conn.setDoOutput(true);
                     conn.setConnectTimeout(5000);
@@ -72,10 +82,5 @@ public class NotifListener extends NotificationListenerService {
                 } catch (Exception ignored) {}
             }).start();
         }
-    }
-
-    private String escapeJson(String s) {
-        return s.replace("\\", "\\\\").replace("\"", "\\\"")
-                .replace("\n", "\\n").replace("\r", "\\r");
     }
 }
