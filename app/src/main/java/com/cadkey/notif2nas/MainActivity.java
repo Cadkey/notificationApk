@@ -298,7 +298,7 @@ public class MainActivity extends Activity {
             "ACTIVATION (3 étapes)\n\n" +
             "1. Bouton 'Vérifier'\n" +
             "   Sélectionner Notif2Nas\n" +
-            "   > Autoriser l'accès aux notifications\n\n" +
+            "   > Autoriser l'accès aux notifications\n" +
             "   Ça ne fonctionne pas, c'est normal\n" +
             "   mais l'étape est obligatoire\n" + 
             "   Quitter complètement l'app\n" +
