@@ -323,7 +323,7 @@ public class MainActivity extends Activity {
             "> Autoriser l'accès aux notifications\n" +
             "Ça ne fonctionne pas, c'est normal,\n" +
             "mais l'étape est obligatoire.\n" +
-            "Quitter complètement l'app\n" +
+            "Quitter complètement l'application\n" +
             "et reprendre à l'étape 2.\n\n" +
             "2. Bouton 'Autoriser'\n" +
             "Appuyer sur '\u22EE' en haut à droite\n" +
@@ -394,7 +394,7 @@ public class MainActivity extends Activity {
     t4b.setText(
             "- L'application installe aucune donnée\n\n" +
             "- Les données saisies sont stockées localement sur l'appareil\n\n" +
-            "- Désinstaller l'app supprime toutes les données\n\n" +
+            "- Désinstaller l'application supprime toutes les données\n\n" +
             "- Le token permet d'authentifier chaque requête côté serveur"
     );
     t4b.setTextColor(TEXT);
