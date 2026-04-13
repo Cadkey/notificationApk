@@ -498,6 +498,45 @@ public class MainActivity extends Activity {
     t7b.setLayoutParams(lp7);
     root.addView(t7b);
     
+    TextView t8 = new TextView(this);
+    t8.setText("EXEMPLE PYTHON");
+    t8.setTextColor(ACCENT2);
+    t8.setTextSize(16);
+    t8.setTypeface(null, Typeface.BOLD);
+    t8.setPadding(0, 48, 0, 0);
+    root.addView(t8);
+
+    TextView t8b = new TextView(this);
+    t8b.setText(
+            "token = 'votre token fort'\n" +
+            "xtoken = os.environ.get('HTTP_X_TOKEN', '')\n" +
+            "if token != xtoken:\n" +
+            "    print('Status: 403 Forbidden')\n" +
+            "    print()\n" +
+            "    raise SystemExit\n" +
+            "\n" +
+            "raw = sys.stdin.read()\n" +
+            "data = json.loads(raw) if raw else None\n" +
+            "if not data:\n" +
+            "    print('Status: 400 Bad Request')\n" +
+            "    print()\n" +
+            "    raise SystemExit\n" +
+            "\n" +
+            "app, title, text, time = data['app'], data['title'], data['text'], data['time']"
+    );
+    t8b.setTextColor(0xFFD6D6F0);
+    t8b.setTextSize(12);
+    t8b.setTypeface(Typeface.MONOSPACE);
+    t8b.setBackground(makeRoundBg(FIELD_BG, 12));
+    t8b.setPadding(22, 18, 22, 18);
+    t8b.setLineSpacing(0, 1.1f);
+    t8b.setTextIsSelectable(true);
+    LinearLayout.LayoutParams lp8 = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    lp8.setMargins(0, 14, 0, 0);
+    t8b.setLayoutParams(lp8);
+    root.addView(t8b);
+    
     scroll.addView(root);
 
     new AlertDialog.Builder(this)
