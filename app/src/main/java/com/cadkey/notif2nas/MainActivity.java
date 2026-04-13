@@ -93,7 +93,7 @@ public class MainActivity extends Activity {
         root.addView(header);
 
         // Bouton 1 - Acces notifications
-        Button btnAcces = makeBtn("Autoriser acces aux notifications", ACCENT, 0f);
+        Button btnAcces = makeBtn("Vérifier accès aux notifications", ACCENT, 0f);
         btnAcces.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         btnAcces.setOnClickListener(v ->
@@ -103,7 +103,7 @@ public class MainActivity extends Activity {
         addSpace(root, 8);
 
         // Bouton 2 - Parametres restreints
-        Button btnRestreint = makeBtn("Autoriser \u22EE parametres restreints", 0xFF37474F, 0f);
+        Button btnRestreint = makeBtn("Autoriser paramètres restreints", 0xFF37474F, 0f);
         btnRestreint.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         btnRestreint.setOnClickListener(v -> {
@@ -280,18 +280,20 @@ public class MainActivity extends Activity {
     private void showHelp() {
         String msg =
             "L'app détecte les notifications Android et les envoie en HTTPS vers un script de votre NAS.\n\n" +
-            "ACTIVATION (3 étapes nécessaires)\n\n" +
-            "1. Bouton 'Autoriser accès aux notifications'\n" +
+            "ACTIVATION (3 étapes)\n\n" +
+            "1. Bouton 'Vérifier accès aux notifications'\n" +
             "   Sélectionner Notif2Nas\n" +
             "   > Autoriser l'accès aux notifications\n\n" +
-            "   Si impossible quitter complètement l'app\n" +
+            "   Si ok, l'activation est terminée\n" + 
+            "   Sinon quitter complètement l'app\n" +
             "   et continuer à l'étape 2\n\n" + 
             "2. Bouton 'Autoriser paramètres restreints'\n" +
             "   Appuyer sur '\u22EE' en haut à droite\n" +
             "   > Autoriser les paramètres restreints\n\n" +
-            "3. Bouton 'Autoriser accès aux notifications'\n" +
+            "3. Bouton 'Vérifier accès aux notifications'\n" +
             "   Sélectionner Notif2Nas\n" +
-            "   > Autoriser l'accès aux notifications\n\n" +
+            "   > Autoriser l'accès aux notifications\n" +
+            "   l'activation est terminée\n\n" +
             "CONFIGURATION\n" +
             "Package: Identifiant de l'app Android à surveiller\n" +
             "URL: adresse HTTPS de votre script sur le NAS\n" +
