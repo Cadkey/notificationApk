@@ -309,7 +309,7 @@ public class MainActivity extends Activity {
     root.addView(intro);
 
     TextView t1 = new TextView(this);
-    t1.setText("ACTIVATION");
+    t1.setText("ACTIVATION (3 étapes)");
     t1.setTextColor(ACCENT2);
     t1.setTextSize(16);
     t1.setTypeface(null, Typeface.BOLD);
@@ -392,7 +392,7 @@ public class MainActivity extends Activity {
 
     TextView t4b = new TextView(this);
     t4b.setText(
-            "- L'application n'installe aucune donnée\n\n" +
+            "- L'application installe aucune donnée\n\n" +
             "- Les données saisies sont stockées localement sur l'appareil\n\n" +
             "- Désinstaller l'app supprime toutes les données\n\n" +
             "- Le token permet d'authentifier chaque requête côté serveur"
