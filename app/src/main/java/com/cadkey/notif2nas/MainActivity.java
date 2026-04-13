@@ -284,16 +284,16 @@ public class MainActivity extends Activity {
             "1. Bouton 'Vérifier accès aux notifications'\n" +
             "   Sélectionner Notif2Nas\n" +
             "   > Autoriser l'accès aux notifications\n\n" +
-            "   Si ok, l'activation est terminée\n" + 
-            "   Sinon quitter complètement l'app\n" +
-            "   et continuer à l'étape 2\n\n" + 
+            "   Ça ne fonctionne pas, c'est normal\n" +
+            "   Quitter complètement l'app\n" +
+            "   et reprendre à l'étape 2\n\n" + 
             "2. Bouton 'Autoriser paramètres restreints'\n" +
             "   Appuyer sur '\u22EE' en haut à droite\n" +
             "   > Autoriser les paramètres restreints\n\n" +
             "3. Bouton 'Vérifier accès aux notifications'\n" +
             "   Sélectionner Notif2Nas\n" +
             "   > Autoriser l'accès aux notifications\n" +
-            "   l'activation est terminée\n\n" +
+            "   C'est ok, l'activation est terminée\n\n" +
             "CONFIGURATION\n" +
             "Package: Identifiant de l'app Android à surveiller\n" +
             "URL: adresse HTTPS de votre script sur le NAS\n" +
@@ -305,8 +305,23 @@ public class MainActivity extends Activity {
             "- L'application installe aucune donnée\n" +
             "- Les données saisies sont stockées localement sur l'appareil\n" +
             "- Désinstaller l'app supprime toutes les données\n" +
-            "- Le token valide chaque requête coté serveur\n\n" +
-            "Une fois configurée, l'app tourne en arrière-plan, silencieuse.";
+            "- Le token permet d'authentifier chaque requête coté serveur\n\n" +
+            "Une fois configurée, l'app tourne silencieusement en arrière-plan.\n\n" +
+            "Exemple en PHP\n" +
+            "$token ='votre token fort';\n" +
+            "$xtoken = $_SERVER['HTTP_X_TOKEN'] ?? '';\n" +
+            "if ($token != $xtoken) {\n" +
+            "http_response_code(403);\n" +
+            "exit;\n" +
+            "}\n" +
+            "$raw = file_get_contents('php://input');\n" +
+            "$data = json_decode($raw, true);\n" +
+            "if (!$data) {\n" +
+            "http_response_code(400);\n" +
+            "file_put_contents($fileLog, $date.' Le json est vide', FILE_APPEND);\n" +
+            "exit;\n" +
+            "}\n" +
+            "[$app, $title, $text, $time] = [$data['app'], $data['title'], $data['text'], $data['time']];\n"
 
         new AlertDialog.Builder(this)
                 .setTitle("Notif2Nas — Aide")
