@@ -131,7 +131,7 @@ public class MainActivity extends Activity {
         root.addView(etPkg);
         addSpace(root, 10);
 
-        EditText etUrl = makeField("URL du script (ex: https://app.mydomain/notif.php)");
+        EditText etUrl = makeField("URL (ex: https://app.mydomain/notif.php)");
         root.addView(etUrl);
         addSpace(root, 10);
 
