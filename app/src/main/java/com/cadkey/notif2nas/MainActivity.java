@@ -321,7 +321,7 @@ public class MainActivity extends Activity {
             "file_put_contents($fileLog, $date.' Le json est vide', FILE_APPEND);\n" +
             "exit;\n" +
             "}\n" +
-            "[$app, $title, $text, $time] = [$data['app'], $data['title'], $data['text'], $data['time']];\n"
+            "[$app, $title, $text, $time] = [$data['app'], $data['title'], $data['text'], $data['time']];\n";
 
         new AlertDialog.Builder(this)
                 .setTitle("Notif2Nas — Aide")
