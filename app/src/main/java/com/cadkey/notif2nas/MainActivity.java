@@ -282,15 +282,15 @@ public class MainActivity extends Activity {
             "L'app détecte les notifications Android et les envoie en HTTPS vers un script de votre NAS.\n\n" +
             "ACTIVATION (3 étapes nécessaires)\n\n" +
             "1. Bouton 'Autoriser accès aux notifications'\n" +
-            "   Sélectionner Notif2Nas\n +
+            "   Sélectionner Notif2Nas\n" +
             "   > Autoriser l'accès aux notifications\n\n" +
             "   Si impossible quitter complètement l'app\n" +
-            "   et continuer à l'étape 2\n\n + 
+            "   et continuer à l'étape 2\n\n" + 
             "2. Bouton 'Autoriser paramètres restreints'\n" +
             "   Appuyer sur '\u22EE' en haut à droite\n" +
             "   > Autoriser les paramètres restreints\n\n" +
             "3. Bouton 'Autoriser accès aux notifications'\n" +
-            "   Sélectionner Notif2Nas\n +
+            "   Sélectionner Notif2Nas\n" +
             "   > Autoriser l'accès aux notifications\n\n" +
             "CONFIGURATION\n" +
             "Package: Identifiant de l'app Android à surveiller\n" +
