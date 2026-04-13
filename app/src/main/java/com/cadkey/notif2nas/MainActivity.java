@@ -461,7 +461,7 @@ public class MainActivity extends Activity {
     t7.setTextColor(ACCENT2);
     t7.setTextSize(16);
     t7.setTypeface(null, Typeface.BOLD);
-    t7.setPadding(0, 48, 0, 0);
+    t7.setPadding(0, 52, 0, 0);
     root.addView(t7);
 
     TextView t7b = new TextView(this);
@@ -503,7 +503,7 @@ public class MainActivity extends Activity {
     t8.setTextColor(ACCENT2);
     t8.setTextSize(16);
     t8.setTypeface(null, Typeface.BOLD);
-    t8.setPadding(0, 48, 0, 0);
+    t8.setPadding(0, 52, 0, 0);
     root.addView(t8);
 
     TextView t8b = new TextView(this);
