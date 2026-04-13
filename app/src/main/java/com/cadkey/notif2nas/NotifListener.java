@@ -4,8 +4,6 @@ import android.content.SharedPreferences;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
-import org.json.JSONObject;
-
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -50,37 +48,47 @@ public class NotifListener extends NotificationListenerService {
             if (last != null && (now - last) < DEDUP_MS) continue;
             lastSent.put(key, now);
 
-            final String json;
-            try {
-                JSONObject obj = new JSONObject();
-                obj.put("app", pkg);
-                obj.put("title", title);
-                obj.put("text", text);
-                obj.put("time", sbn.getPostTime());
-                json = obj.toString();
-            } catch (Exception e) {
-                continue;
-            }
+            final String json = "{\"app\":" + escapeJson(pkg)
+                    + ",\"title\":" + escapeJson(title)
+                    + ",\"text\":" + escapeJson(text)
+                    + ",\"time\":" + sbn.getPostTime() + "}";
 
             final String fUrl   = url;
             final String fToken = token;
 
             new Thread(() -> {
                 try {
+                    byte[] body = json.getBytes(StandardCharsets.UTF_8);
                     HttpURLConnection conn = (HttpURLConnection) new URL(fUrl).openConnection();
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+                    conn.setRequestProperty("Content-Length", String.valueOf(body.length));
                     if (!fToken.isEmpty()) conn.setRequestProperty("X-Token", fToken);
                     conn.setDoOutput(true);
                     conn.setConnectTimeout(5000);
                     conn.setReadTimeout(5000);
                     try (OutputStream os = conn.getOutputStream()) {
-                        os.write(json.getBytes(StandardCharsets.UTF_8));
+                        os.write(body);
                     }
                     conn.getResponseCode();
                     conn.disconnect();
                 } catch (Exception ignored) {}
             }).start();
         }
+    }
+
+    private String escapeJson(String s) {
+        StringBuilder sb = new StringBuilder("\"");
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '"')       sb.append("\\\"");
+            else if (c == '\\') sb.append("\\\\");
+            else if (c == '\n') sb.append("\\n");
+            else if (c == '\r') sb.append("\\r");
+            else if (c == '\t') sb.append("\\t");
+            else                sb.append(c);
+        }
+        sb.append("\"");
+        return sb.toString();
     }
 }
