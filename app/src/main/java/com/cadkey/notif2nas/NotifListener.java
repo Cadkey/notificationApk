@@ -34,8 +34,10 @@ public class NotifListener extends NotificationListenerService {
             if (sbn.getNotification().extras != null) {
                 CharSequence t = sbn.getNotification().extras.getCharSequence("android.title");
                 CharSequence b = sbn.getNotification().extras.getCharSequence("android.text");
-                if (t != null) title = t.toString().trim();
-                if (b != null) text  = b.toString().trim();
+//              if (t != null) title = t.toString().trim();
+//              if (b != null) text  = b.toString().trim();
+                if (t != null) title = android.text.TextUtils.substring(t, 0, t.length()).trim();
+                if (b != null) text  = android.text.TextUtils.substring(b, 0, b.length()).trim();
             }
 
             // Ignorer si title ET text sont vides
@@ -51,7 +53,7 @@ public class NotifListener extends NotificationListenerService {
             final String json = "{\"app\":" + escapeJson(pkg)
                     + ",\"title\":" + escapeJson(title)
                     + ",\"text\":" + escapeJson(text)
-                    + ",\"time\":" + sbn.getPostTime() + "}";
+                    + ",\"time\":" + (sbn.getPostTime() / 1000L) + "}";
 
             final String fUrl   = url;
             final String fToken = token;
