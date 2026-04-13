@@ -92,26 +92,41 @@ public class MainActivity extends Activity {
 
         root.addView(header);
 
-        // Bouton 1 - Acces notifications
-        Button btnAcces = makeBtn("Vérifier accès aux notifications", ACCENT, 0f);
-        btnAcces.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        btnAcces.setOnClickListener(v ->
+        // 3 boutons sur une ligne : Vérifier | Autoriser | Accès
+        LinearLayout btnRow3 = new LinearLayout(this);
+        btnRow3.setOrientation(LinearLayout.HORIZONTAL);
+
+        Button btnVerif1 = makeBtn("Vérifier", ACCENT, 1f);
+        Button btnAutoriser = makeBtn("Autoriser", 0xFF37474F, 1f);
+        Button btnAcces2 = makeBtn("Accès", ACCENT, 1f);
+
+        LinearLayout.LayoutParams bra1 = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        bra1.setMargins(0, 0, 8, 0);
+        btnVerif1.setLayoutParams(bra1);
+
+        LinearLayout.LayoutParams bra2 = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        bra2.setMargins(0, 0, 8, 0);
+        btnAutoriser.setLayoutParams(bra2);
+
+        LinearLayout.LayoutParams bra3 = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        btnAcces2.setLayoutParams(bra3);
+
+        btnVerif1.setOnClickListener(v ->
                 startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)));
-        root.addView(btnAcces);
 
-        addSpace(root, 8);
-
-        // Bouton 2 - Parametres restreints
-        Button btnRestreint = makeBtn("Autoriser paramètres restreints", 0xFF37474F, 0f);
-        btnRestreint.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        btnRestreint.setOnClickListener(v -> {
+        btnAutoriser.setOnClickListener(v -> {
             Intent i = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             i.setData(android.net.Uri.fromParts("package", getPackageName(), null));
             startActivity(i);
         });
-        root.addView(btnRestreint);
+
+        btnAcces2.setOnClickListener(v ->
+                startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)));
+
+        btnRow3.addView(btnVerif1);
+        btnRow3.addView(btnAutoriser);
+        btnRow3.addView(btnAcces2);
+        root.addView(btnRow3);
 
         addSpace(root, 32);
 
@@ -281,16 +296,17 @@ public class MainActivity extends Activity {
         String msg =
             "L'app détecte les notifications Android et les envoie en HTTPS vers un script de votre NAS.\n\n" +
             "ACTIVATION (3 étapes)\n\n" +
-            "1. Bouton 'Vérifier accès aux notifications'\n" +
+            "1. Bouton 'Vérifier'\n" +
             "   Sélectionner Notif2Nas\n" +
             "   > Autoriser l'accès aux notifications\n\n" +
             "   Ça ne fonctionne pas, c'est normal\n" +
+            "   mais l'étape est obligatoire\n" + 
             "   Quitter complètement l'app\n" +
             "   et reprendre à l'étape 2\n\n" + 
-            "2. Bouton 'Autoriser paramètres restreints'\n" +
+            "2. Bouton 'Autoriser'\n" +
             "   Appuyer sur '\u22EE' en haut à droite\n" +
             "   > Autoriser les paramètres restreints\n\n" +
-            "3. Bouton 'Vérifier accès aux notifications'\n" +
+            "3. Bouton 'Accès'\n" +
             "   Sélectionner Notif2Nas\n" +
             "   > Autoriser l'accès aux notifications\n" +
             "   C'est ok, l'activation est terminée\n\n" +
