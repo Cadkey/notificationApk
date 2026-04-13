@@ -293,56 +293,169 @@ public class MainActivity extends Activity {
     }
 
     private void showHelp() {
-        String msg =
-            "L'app détecte les notifications Android et les envoie en HTTPS vers un script de votre NAS.\n\n" +
-            "ACTIVATION (3 étapes)\n\n" +
+    ScrollView scroll = new ScrollView(this);
+    scroll.setBackgroundColor(BG);
+
+    LinearLayout root = new LinearLayout(this);
+    root.setOrientation(LinearLayout.VERTICAL);
+    root.setPadding(48, 48, 48, 32);
+    root.setBackgroundColor(BG);
+
+    TextView intro = new TextView(this);
+    intro.setText("L'app détecte les notifications Android et les envoie en HTTPS vers un script de votre NAS.");
+    intro.setTextColor(TEXT);
+    intro.setTextSize(14);
+    intro.setPadding(0, 0, 0, 28);
+    root.addView(intro);
+
+    TextView t1 = new TextView(this);
+    t1.setText("ACTIVATION");
+    t1.setTextColor(ACCENT2);
+    t1.setTextSize(16);
+    t1.setTypeface(null, Typeface.BOLD);
+    root.addView(t1);
+
+    TextView t1b = new TextView(this);
+    t1b.setText(
             "1. Bouton 'Vérifier'\n" +
-            "   Sélectionner Notif2Nas\n" +
-            "   > Autoriser l'accès aux notifications\n" +
-            "   Ça ne fonctionne pas, c'est normal\n" +
-            "   mais l'étape est obligatoire\n" + 
-            "   Quitter complètement l'app\n" +
-            "   et reprendre à l'étape 2\n\n" + 
+            "Sélectionner Notif2Nas\n" +
+            "> Autoriser l'accès aux notifications\n\n" +
+            "Ça ne fonctionne pas, c'est normal,\n" +
+            "mais l'étape est obligatoire.\n" +
+            "Quitter complètement l'app\n" +
+            "et reprendre à l'étape 2.\n\n" +
             "2. Bouton 'Autoriser'\n" +
-            "   Appuyer sur '\u22EE' en haut à droite\n" +
-            "   > Autoriser les paramètres restreints\n\n" +
+            "Appuyer sur '\u22EE' en haut à droite\n" +
+            "> Autoriser les paramètres restreints\n\n" +
             "3. Bouton 'Accès'\n" +
-            "   Sélectionner Notif2Nas\n" +
-            "   > Autoriser l'accès aux notifications\n" +
-            "   C'est ok, l'activation est terminée\n\n" +
-            "CONFIGURATION\n" +
-            "Package: Identifiant de l'app Android à surveiller\n" +
-            "URL: adresse HTTPS de votre script sur le NAS\n" +
-            "Token: envoyé dans le header X-Token\n" +
-            "  pour authentification\n\n" +
-            "JSON ENVOYÉ\n" +
-            "{ app, title, text, time }\n\n" +
-            "SÉCURITÉ\n" +
-            "- L'application installe aucune donnée\n" +
-            "- Les données saisies sont stockées localement sur l'appareil\n" +
-            "- Désinstaller l'app supprime toutes les données\n" +
-            "- Le token permet d'authentifier chaque requête coté serveur\n\n" +
-            "Une fois configurée, l'app tourne silencieusement en arrière-plan.\n\n" +
-            "Exemple en PHP\n" +
-            "$token ='votre token fort';\n" +
+            "Sélectionner Notif2Nas\n" +
+            "> Autoriser l'accès aux notifications\n" +
+            "C'est ok, l'activation est terminée."
+    );
+    t1b.setTextColor(TEXT);
+    t1b.setTextSize(14);
+    t1b.setLineSpacing(0, 1.15f);
+    t1b.setPadding(0, 14, 0, 28);
+    root.addView(t1b);
+
+    TextView t2 = new TextView(this);
+    t2.setText("CONFIGURATION");
+    t2.setTextColor(ACCENT2);
+    t2.setTextSize(16);
+    t2.setTypeface(null, Typeface.BOLD);
+    root.addView(t2);
+
+    TextView t2b = new TextView(this);
+    t2b.setText(
+            "Package : identifiant de l'app Android à surveiller\n\n" +
+            "URL : adresse HTTPS de votre script sur le NAS\n\n" +
+            "Token : envoyé dans le header X-Token\n" +
+            "pour authentification"
+    );
+    t2b.setTextColor(TEXT);
+    t2b.setTextSize(14);
+    t2b.setLineSpacing(0, 1.15f);
+    t2b.setPadding(0, 14, 0, 28);
+    root.addView(t2b);
+
+    TextView t3 = new TextView(this);
+    t3.setText("JSON ENVOYÉ");
+    t3.setTextColor(ACCENT2);
+    t3.setTextSize(16);
+    t3.setTypeface(null, Typeface.BOLD);
+    root.addView(t3);
+
+    TextView t3b = new TextView(this);
+    t3b.setText("{ app, title, text, time }");
+    t3b.setTextColor(0xFFD6D6F0);
+    t3b.setTextSize(13);
+    t3b.setTypeface(Typeface.MONOSPACE);
+    t3b.setBackground(makeRoundBg(FIELD_BG, 12));
+    t3b.setPadding(22, 18, 22, 18);
+    t3b.setPadding(22, 18, 22, 18);
+    LinearLayout.LayoutParams lp3 = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    lp3.setMargins(0, 14, 0, 28);
+    t3b.setLayoutParams(lp3);
+    root.addView(t3b);
+
+    TextView t4 = new TextView(this);
+    t4.setText("SÉCURITÉ");
+    t4.setTextColor(ACCENT2);
+    t4.setTextSize(16);
+    t4.setTypeface(null, Typeface.BOLD);
+    root.addView(t4);
+
+    TextView t4b = new TextView(this);
+    t4b.setText(
+            "- L'application n'installe aucune donnée\n\n" +
+            "- Les données saisies sont stockées localement sur l'appareil\n\n" +
+            "- Désinstaller l'app supprime toutes les données\n\n" +
+            "- Le token permet d'authentifier chaque requête côté serveur"
+    );
+    t4b.setTextColor(TEXT);
+    t4b.setTextSize(14);
+    t4b.setLineSpacing(0, 1.15f);
+    t4b.setPadding(0, 14, 0, 28);
+    root.addView(t4b);
+
+    TextView t5 = new TextView(this);
+    t5.setText("INFO");
+    t5.setTextColor(ACCENT2);
+    t5.setTextSize(16);
+    t5.setTypeface(null, Typeface.BOLD);
+    root.addView(t5);
+
+    TextView t5b = new TextView(this);
+    t5b.setText("Une fois configurée, l'app tourne silencieusement en arrière-plan.");
+    t5b.setTextColor(TEXT);
+    t5b.setTextSize(14);
+    t5b.setLineSpacing(0, 1.15f);
+    t5b.setPadding(0, 14, 0, 28);
+    root.addView(t5b);
+
+    TextView t6 = new TextView(this);
+    t6.setText("EXEMPLE PHP");
+    t6.setTextColor(ACCENT2);
+    t6.setTextSize(16);
+    t6.setTypeface(null, Typeface.BOLD);
+    root.addView(t6);
+
+    TextView t6b = new TextView(this);
+    t6b.setText(
+            "$token = 'votre token fort';\n" +
             "$xtoken = $_SERVER['HTTP_X_TOKEN'] ?? '';\n" +
             "if ($token != $xtoken) {\n" +
-            "http_response_code(403);\n" +
-            "exit;\n" +
+            "    http_response_code(403);\n" +
+            "    exit;\n" +
             "}\n" +
             "$raw = file_get_contents('php://input');\n" +
             "$data = json_decode($raw, true);\n" +
             "if (!$data) {\n" +
-            "http_response_code(400);\n" +
-            "exit;\n" +
+            "    http_response_code(400);\n" +
+            "    exit;\n" +
             "}\n" +
-            "[$app, $title, $text, $time] = [$data['app'], $data['title'], $data['text'], $data['time']];\n";
+            "[$app, $title, $text, $time] = [$data['app'], $data['title'], $data['text'], $data['time']];"
+    );
+    t6b.setTextColor(0xFFD6D6F0);
+    t6b.setTextSize(12);
+    t6b.setTypeface(Typeface.MONOSPACE);
+    t6b.setBackground(makeRoundBg(FIELD_BG, 12));
+    t6b.setPadding(22, 18, 22, 18);
+    t6b.setLineSpacing(0, 1.1f);
+    LinearLayout.LayoutParams lp6 = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    lp6.setMargins(0, 14, 0, 0);
+    t6b.setLayoutParams(lp6);
+    root.addView(t6b);
 
-        new AlertDialog.Builder(this)
-                .setTitle("Notif2Nas — Aide")
-                .setMessage(msg)
-                .setPositiveButton("OK", null)
-                .show();
+    scroll.addView(root);
+
+    new AlertDialog.Builder(this)
+            .setTitle("Notif2Nas — Aide")
+            .setView(scroll)
+            .setPositiveButton("OK", null)
+            .show();
     }
 
     private void sendTest(String urlStr, String token, String pkg) {
