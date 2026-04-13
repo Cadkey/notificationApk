@@ -279,30 +279,32 @@ public class MainActivity extends Activity {
 
     private void showHelp() {
         String msg =
-            "Notif2Nas intercepte les notifications Android et les envoie en HTTPS vers un script de votre NAS.\n\n" +
+            "L'app intercepte les notifications Android et les envoie en HTTPS vers un script de votre NAS.\n\n" +
             "ACTIVATION (2 étapes obligatoires)\n\n" +
-            "1. Bouton 'Autoriser paramètres restreints'\n" +
-            "   Paramètres > Applications > Voir toutes les applis\n" +
-            "   > Notif2Nas > appuyer sur '\u22EE' en haut à droite\n" +
+            "1. Bouton 'Autoriser accès aux notifications'\n" +
+            "   Sélectionner Notif2Nas\n +
+            "   > Autoriser l'accès aux notifications\n\n" +
+            "   Si impossible quitter complètement l'app\n" +
+            "   et continuer à l'étape 2\n\n + 
+            "2. Bouton 'Autoriser paramètres restreints'\n" +
+            "   Appuyer sur '\u22EE' en haut à droite\n" +
             "   > Autoriser les paramètres restreints\n\n" +
-            "2. Bouton 'Autoriser accès aux notifications'\n" +
-            "   Paramètres > Applications > Accès spéciaux des applis\n" +
-            "   > Notifications : lecture, contrôle et réponse\n" +
-            "   > Notif2Nas > Autoriser l'accès aux notifications\n\n" +
-            "Les boutons vous guident à chaque étape jusqu'à Notif2Nas.\n\n" +
+            "3. Bouton 'Autoriser accès aux notifications'\n" +
+            "   Sélectionner Notif2Nas\n +
+            "   > Autoriser l'accès aux notifications\n\n" +
             "CONFIGURATION\n" +
             "Package: Identifiant de l'app Android à surveiller\n" +
             "URL: adresse HTTPS de votre script sur le NAS\n" +
-            "Token: mot de passe fort envoyé dans le header X-Token\n" +
-            "  afin d'authentifier les appels par le script\n\n" +
+            "Token: envoyé dans le header X-Token\n" +
+            "  pour authentification\n\n" +
             "JSON ENVOYÉ\n" +
             "{ app, title, text, time }\n\n" +
             "SÉCURITÉ\n" +
-            "- Aucune donnée n'est préinstallée dans l'application\n" +
-            "- Toutes les données saisies sont stockées localement sur l'appareil\n" +
+            "- L'application installe aucune donnée\n" +
+            "- Les données saisies sont stockées localement sur l'appareil\n" +
             "- Désinstaller l'app supprime toutes les données\n" +
             "- Le token valide chaque requête coté serveur\n\n" +
-            "Une fois configurée, l'app tourne en arrière-plan, sans interface et silencieuse. On l'oublie.";
+            "Une fois configurée, l'app tourne en arrière-plan, silencieuse.";
 
         new AlertDialog.Builder(this)
                 .setTitle("Notif2Nas — Aide")
