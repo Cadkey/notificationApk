@@ -313,13 +313,14 @@ public class MainActivity extends Activity {
     t1.setTextColor(ACCENT2);
     t1.setTextSize(16);
     t1.setTypeface(null, Typeface.BOLD);
+    t1.setPadding(0, 24, 0, 0);
     root.addView(t1);
 
     TextView t1b = new TextView(this);
     t1b.setText(
             "1. Bouton 'Vérifier'\n" +
             "Sélectionner Notif2Nas\n" +
-            "> Autoriser l'accès aux notifications\n\n" +
+            "> Autoriser l'accès aux notifications\n" +
             "Ça ne fonctionne pas, c'est normal,\n" +
             "mais l'étape est obligatoire.\n" +
             "Quitter complètement l'app\n" +
@@ -343,6 +344,7 @@ public class MainActivity extends Activity {
     t2.setTextColor(ACCENT2);
     t2.setTextSize(16);
     t2.setTypeface(null, Typeface.BOLD);
+    t2.setPadding(0, 24, 0, 0);
     root.addView(t2);
 
     TextView t2b = new TextView(this);
@@ -363,6 +365,7 @@ public class MainActivity extends Activity {
     t3.setTextColor(ACCENT2);
     t3.setTextSize(16);
     t3.setTypeface(null, Typeface.BOLD);
+    t3.setPadding(0, 24, 0, 0);
     root.addView(t3);
 
     TextView t3b = new TextView(this);
@@ -384,6 +387,7 @@ public class MainActivity extends Activity {
     t4.setTextColor(ACCENT2);
     t4.setTextSize(16);
     t4.setTypeface(null, Typeface.BOLD);
+    t4.setPadding(0, 24, 0, 0);
     root.addView(t4);
 
     TextView t4b = new TextView(this);
@@ -404,6 +408,7 @@ public class MainActivity extends Activity {
     t5.setTextColor(ACCENT2);
     t5.setTextSize(16);
     t5.setTypeface(null, Typeface.BOLD);
+    t5.setPadding(0, 24, 0, 0);
     root.addView(t5);
 
     TextView t5b = new TextView(this);
@@ -419,6 +424,7 @@ public class MainActivity extends Activity {
     t6.setTextColor(ACCENT2);
     t6.setTextSize(16);
     t6.setTypeface(null, Typeface.BOLD);
+    t6.setPadding(0, 24, 0, 0);
     root.addView(t6);
 
     TextView t6b = new TextView(this);
@@ -443,6 +449,7 @@ public class MainActivity extends Activity {
     t6b.setBackground(makeRoundBg(FIELD_BG, 12));
     t6b.setPadding(22, 18, 22, 18);
     t6b.setLineSpacing(0, 1.1f);
+    t6b.setTextIsSelectable(true);
     LinearLayout.LayoutParams lp6 = new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     lp6.setMargins(0, 14, 0, 0);
