@@ -9,8 +9,8 @@ android {
         applicationId "com.cadkey.notif2nas"
         minSdk 26
         targetSdk 34
-        versionCode 230
-        versionName "2.30"
+        versionCode 231
+        versionName "2.31"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
