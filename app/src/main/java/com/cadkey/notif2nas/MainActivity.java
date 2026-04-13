@@ -216,12 +216,12 @@ public class MainActivity extends Activity {
             label.setPadding(0, 0, 0, 14);
             card.addView(label);
 
-            EditText ePkg   = makeField("Package");
+            EditText ePkg   = makeField("Package (ex: com.hyundai.oneapp.eu)");
             ePkg.setText(pkg);
             card.addView(ePkg);
             addSpace(card, 10);
 
-            EditText eUrl   = makeField("URL PHP");
+            EditText eUrl   = makeField("URL (ex: https://app.mydomain/notif.php)");
             eUrl.setText(url);
             card.addView(eUrl);
             addSpace(card, 10);
@@ -318,7 +318,6 @@ public class MainActivity extends Activity {
             "$data = json_decode($raw, true);\n" +
             "if (!$data) {\n" +
             "http_response_code(400);\n" +
-            "file_put_contents($fileLog, $date.' Le json est vide', FILE_APPEND);\n" +
             "exit;\n" +
             "}\n" +
             "[$app, $title, $text, $time] = [$data['app'], $data['title'], $data['text'], $data['time']];\n";
@@ -334,7 +333,7 @@ public class MainActivity extends Activity {
         String json = "{\"app\":\"" + pkg + "\","
                 + "\"title\":\"Test Notif2Nas\","
                 + "\"text\":\"Ceci est une notification de test réussi\","
-                + "\"time\":" + System.currentTimeMillis() + "}";
+                + "\"time\":" + (System.currentTimeMillis() / 1000) + "}";
         new Thread(() -> {
             try {
                 HttpURLConnection conn = (HttpURLConnection) new URL(urlStr).openConnection();
