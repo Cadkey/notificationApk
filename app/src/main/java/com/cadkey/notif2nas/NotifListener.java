@@ -35,9 +35,8 @@ public class NotifListener extends NotificationListenerService {
                 CharSequence t = sbn.getNotification().extras.getCharSequence("android.title");
                 CharSequence b = sbn.getNotification().extras.getCharSequence("android.text");
 //              if (t != null) title = t.toString().trim();
-//              if (b != null) text  = b.toString().trim();
-                if (t != null) title = android.text.TextUtils.substring(t, 0, t.length()).trim();
-                if (b != null) text  = android.text.TextUtils.substring(b, 0, b.length()).trim();
+                if (t != null) title = t.toString().trim().replaceFirst("^[^\\p{L}]+", "");
+                if (b != null) text  = b.toString().trim();
             }
 
             // Ignorer si title ET text sont vides
