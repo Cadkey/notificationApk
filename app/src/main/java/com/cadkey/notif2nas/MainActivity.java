@@ -455,7 +455,49 @@ public class MainActivity extends Activity {
     lp6.setMargins(0, 14, 0, 0);
     t6b.setLayoutParams(lp6);
     root.addView(t6b);
+    
+    TextView t7 = new TextView(this);
+    t7.setText("EXEMPLE SH");
+    t7.setTextColor(ACCENT2);
+    t7.setTextSize(16);
+    t7.setTypeface(null, Typeface.BOLD);
+    t7.setPadding(0, 24, 0, 0);
+    root.addView(t7);
 
+    TextView t7b = new TextView(this);
+    t7b.setText(
+            "token='votre token fort'\n" +
+            "xtoken=\"${HTTP_X_TOKEN:-}\"\n" +
+            "if [ \"$token\" != \"$xtoken\" ]; then\n" +
+            "    printf 'Status: 403 Forbidden\\r\\n\\r\\n'\n" +
+            "    exit\n" +
+            "fi\n" +
+            "\n" +
+            "raw=$(cat)\n" +
+            "data=$(printf '%s' \"$raw\" | jq -c . 2>/dev/null)\n" +
+            "if [ -z \"$data\" ] || [ \"$data\" = \"null\" ]; then\n" +
+            "    printf 'Status: 400 Bad Request\\r\\n\\r\\n'\n" +
+            "    exit\n" +
+            "fi\n" +
+            "\n" +
+            "app=$(printf '%s' \"$data\" | jq -r '.app')\n" +
+            "title=$(printf '%s' \"$data\" | jq -r '.title')\n" +
+            "text=$(printf '%s' \"$data\" | jq -r '.text')\n" +
+            "time=$(printf '%s' \"$data\" | jq -r '.time')"
+    );
+    t7b.setTextColor(0xFFD6D6F0);
+    t7b.setTextSize(12);
+    t7b.setTypeface(Typeface.MONOSPACE);
+    t7b.setBackground(makeRoundBg(FIELD_BG, 12));
+    t7b.setPadding(22, 18, 22, 18);
+    t7b.setLineSpacing(0, 1.1f);
+    t7b.setTextIsSelectable(true);
+    LinearLayout.LayoutParams lp7 = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    lp7.setMargins(0, 14, 0, 0);
+    t7b.setLayoutParams(lp7);
+    root.addView(t7b);
+    
     scroll.addView(root);
 
     new AlertDialog.Builder(this)
