@@ -440,18 +440,12 @@ public class MainActivity extends Activity {
 
     TextView t6b = new TextView(this);
     t6b.setText(
-            "$token = 'votre_token_fort';\n" +
+            "$token = 'un_token_fort';\n" +
             "$xtoken = $_SERVER['HTTP_X_TOKEN'] ?? '';\n" +
-            "if ($token != $xtoken) {\n" +
-            "    http_response_code(403);\n" +
-            "    exit;\n" +
-            "}\n" +
+            "if ($token != $xtoken) exit(http_response_code(403));\n" +
             "$raw = file_get_contents('php://input');\n" +
             "$data = json_decode($raw, true);\n" +
-            "if (!$data) {\n" +
-            "    http_response_code(400);\n" +
-            "    exit;\n" +
-            "}\n" +
+            "if (!$data) exit(http_response_code(400));\n" +
             "[$app, $title, $text, $time] = [$data['app'], $data['title'], $data['text'], $data['time']];"
     );
     t6b.setTextColor(0xFFD6D6F0);
@@ -477,7 +471,7 @@ public class MainActivity extends Activity {
 
     TextView t7b = new TextView(this);
     t7b.setText(
-            "token='votre_token_fort'\n" +
+            "token='un_token_fort'\n" +
             "xtoken=\"${HTTP_X_TOKEN:-}\"\n" +
             "if [ \"$token\" != \"$xtoken\" ]; then\n" +
             "    printf 'Status: 403 Forbidden\\r\\n\\r\\n'\n" +
@@ -519,7 +513,7 @@ public class MainActivity extends Activity {
 
     TextView t8b = new TextView(this);
     t8b.setText(
-            "token = 'votre_token_fort'\n" +
+            "token = 'un_token_fort'\n" +
             "xtoken = os.environ.get('HTTP_X_TOKEN', '')\n" +
             "if token != xtoken:\n" +
             "    print('Status: 403 Forbidden')\n" +
