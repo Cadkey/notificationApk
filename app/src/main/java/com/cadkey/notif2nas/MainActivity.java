@@ -369,7 +369,7 @@ public class MainActivity extends Activity {
     root.addView(t3);
 
     TextView t3b = new TextView(this);
-    tt3b.setText(
+    t3b.setText(
         "{\n" +
         "  \"app\": \"com.hyundai.oneapp.eu\",\n" +
         "  \"title\": \"Commande à distance\",\n" +
