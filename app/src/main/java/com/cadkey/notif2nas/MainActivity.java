@@ -150,7 +150,7 @@ public class MainActivity extends Activity {
         root.addView(etUrl);
         addSpace(root, 10);
 
-        EditText etToken = makeField("Token (optionnel)");
+        EditText etToken = makeField("Token (optionnel) a-z A-Z 0-9 - _");
         root.addView(etToken);
         addSpace(root, 20);
 
@@ -241,7 +241,7 @@ public class MainActivity extends Activity {
             card.addView(eUrl);
             addSpace(card, 10);
 
-            EditText eToken = makeField("Token (optionnel)");
+            EditText eToken = makeField("Token (optionnel) a-z A-Z 0-9 - _");
             eToken.setText(token);
             card.addView(eToken);
             addSpace(card, 18);
@@ -302,7 +302,7 @@ public class MainActivity extends Activity {
     root.setBackgroundColor(BG);
 
     TextView intro = new TextView(this);
-    intro.setText("L'app détecte les notifications Android et les envoie en HTTPS vers un script de votre NAS.");
+    intro.setText("Notif2Nas détecte les notifications Android et les envoie en HTTPS vers un script de votre NAS.");
     intro.setTextColor(TEXT);
     intro.setTextSize(14);
     intro.setPadding(0, 0, 0, 28);
@@ -402,7 +402,7 @@ public class MainActivity extends Activity {
             "- L'application installe aucune donnée\n\n" +
             "- Les données saisies sont stockées localement sur l'appareil\n\n" +
             "- Désinstaller l'application supprime toutes les données\n\n" +
-            "- Le token permet d'authentifier chaque requête côté serveur"
+            "- Le token permet d'authentifier et de sécuriser chaque requête vers le serveur"
     );
     t4b.setTextColor(TEXT);
     t4b.setTextSize(14);
@@ -419,7 +419,11 @@ public class MainActivity extends Activity {
     root.addView(t5);
 
     TextView t5b = new TextView(this);
-    t5b.setText("Une fois configurée, l'app tourne silencieusement en arrière-plan.");
+    t5b.setText(
+        "Une fois configurée, l'app tourne silencieusement en arrière-plan.\n" +
+        "Pour des raisons de compatibilité entre les differents systèmes, utilisez\n" +
+        "de préférence les caractères a-z A-Z 0-9 - _ . dans le token."
+    );
     t5b.setTextColor(TEXT);
     t5b.setTextSize(14);
     t5b.setLineSpacing(0, 1.15f);
@@ -436,7 +440,7 @@ public class MainActivity extends Activity {
 
     TextView t6b = new TextView(this);
     t6b.setText(
-            "$token = 'votre token fort';\n" +
+            "$token = 'votre_token_fort';\n" +
             "$xtoken = $_SERVER['HTTP_X_TOKEN'] ?? '';\n" +
             "if ($token != $xtoken) {\n" +
             "    http_response_code(403);\n" +
@@ -473,7 +477,7 @@ public class MainActivity extends Activity {
 
     TextView t7b = new TextView(this);
     t7b.setText(
-            "token='votre token fort'\n" +
+            "token='votre_token_fort'\n" +
             "xtoken=\"${HTTP_X_TOKEN:-}\"\n" +
             "if [ \"$token\" != \"$xtoken\" ]; then\n" +
             "    printf 'Status: 403 Forbidden\\r\\n\\r\\n'\n" +
@@ -515,7 +519,7 @@ public class MainActivity extends Activity {
 
     TextView t8b = new TextView(this);
     t8b.setText(
-            "token = 'votre token fort'\n" +
+            "token = 'votre_token_fort'\n" +
             "xtoken = os.environ.get('HTTP_X_TOKEN', '')\n" +
             "if token != xtoken:\n" +
             "    print('Status: 403 Forbidden')\n" +
