@@ -349,10 +349,10 @@ public class MainActivity extends Activity {
 
     TextView t2b = new TextView(this);
     t2b.setText(
-            "Package : identifiant de l'app Android à surveiller\n\n" +
-            "URL : adresse HTTPS de votre script sur le NAS\n\n" +
+            "Package : identifiant de l'app Android à surveiller.\n\n" +
+            "URL : adresse HTTPS de votre script sur le NAS.\n\n" +
             "Token : envoyé dans le header X-Token\n" +
-            "pour authentification"
+            "pour authentification."
     );
     t2b.setTextColor(TEXT);
     t2b.setTextSize(14);
@@ -399,10 +399,10 @@ public class MainActivity extends Activity {
 
     TextView t4b = new TextView(this);
     t4b.setText(
-            "- L'application installe aucune donnée\n\n" +
-            "- Les données saisies sont stockées localement sur l'appareil\n\n" +
-            "- Désinstaller l'application supprime toutes les données\n\n" +
-            "- Le token permet d'authentifier et de sécuriser chaque requête vers le serveur"
+            "- L'application installe aucune donnée.\n\n" +
+            "- Les données saisies sont stockées localement sur l'appareil.\n\n" +
+            "- Désinstaller l'application supprime toutes les données.\n\n" +
+            "- Le token permet d'authentifier et de sécuriser chaque requête vers le serveur."
     );
     t4b.setTextColor(TEXT);
     t4b.setTextSize(14);
@@ -411,7 +411,7 @@ public class MainActivity extends Activity {
     root.addView(t4b);
 
     TextView t5 = new TextView(this);
-    t5.setText("INFO");
+    t5.setText("INFOS");
     t5.setTextColor(ACCENT2);
     t5.setTextSize(16);
     t5.setTypeface(null, Typeface.BOLD);
@@ -420,8 +420,8 @@ public class MainActivity extends Activity {
 
     TextView t5b = new TextView(this);
     t5b.setText(
-        "Pour des raisons de compatibilité entre les différents systèmes, utilisez\n" +
-        "de préférence les caractères a-z A-Z 0-9 - _ . dans le token.\n" +
+        "Par souci de compatibilité entre les différents systèmes, utilisez" +
+        " de préférence les caractères a-z A-Z 0-9 - _ . dans le token.\n\n" +
         "Une fois configurée, l'app tourne silencieusement en arrière-plan."
     );
     t5b.setTextColor(TEXT);
