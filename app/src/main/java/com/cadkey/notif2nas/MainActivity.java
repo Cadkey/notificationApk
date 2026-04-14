@@ -420,9 +420,9 @@ public class MainActivity extends Activity {
 
     TextView t5b = new TextView(this);
     t5b.setText(
-        "Une fois configurée, l'app tourne silencieusement en arrière-plan.\n" +
-        "Pour des raisons de compatibilité entre les differents systèmes, utilisez\n" +
-        "de préférence les caractères a-z A-Z 0-9 - _ . dans le token."
+        "Pour des raisons de compatibilité entre les différents systèmes, utilisez\n" +
+        "de préférence les caractères a-z A-Z 0-9 - _ . dans le token.\n" +
+        "Une fois configurée, l'app tourne silencieusement en arrière-plan."
     );
     t5b.setTextColor(TEXT);
     t5b.setTextSize(14);
