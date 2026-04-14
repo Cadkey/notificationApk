@@ -420,8 +420,8 @@ public class MainActivity extends Activity {
 
     TextView t5b = new TextView(this);
     t5b.setText(
-        "Par souci de compatibilité entre les différents systèmes, utilisez" +
-        " de préférence les caractères a-z A-Z 0-9 - _ . dans le token.\n\n" +
+        "Pour assurer la compatibilité entre les différents systèmes, utilisez\n" +
+        "de préférence les caractères a-z A-Z 0-9 - _ . dans le token.\n\n" +
         "Une fois configurée, l'app tourne silencieusement en arrière-plan."
     );
     t5b.setTextColor(TEXT);
@@ -442,10 +442,10 @@ public class MainActivity extends Activity {
     t6b.setText(
             "$token = 'un_token_fort';\n" +
             "$xtoken = $_SERVER['HTTP_X_TOKEN'] ?? '';\n" +
-            "if ($token != $xtoken) exit(http_response_code(403));\n" +
+            "if ($token != $xtoken) exit(http_response_code(403));\n\n" +
             "$raw = file_get_contents('php://input');\n" +
             "$data = json_decode($raw, true);\n" +
-            "if (!$data) exit(http_response_code(400));\n" +
+            "if (!$data) exit(http_response_code(400));\n\n" +
             "[$app, $title, $text, $time] = [$data['app'], $data['title'], $data['text'], $data['time']];"
     );
     t6b.setTextColor(0xFFD6D6F0);
