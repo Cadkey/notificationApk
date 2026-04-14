@@ -369,7 +369,14 @@ public class MainActivity extends Activity {
     root.addView(t3);
 
     TextView t3b = new TextView(this);
-    t3b.setText("{ app, title, text, time }");
+    tt3b.setText(
+        "{\n" +
+        "  \"app\": \"com.hyundai.oneapp.eu\",\n" +
+        "  \"title\": \"Commande à distance\",\n" +
+        "  \"text\": \"Portes verrouillées.\",\n" +
+        "  \"time\": 1776139361\n" +
+        "}"
+    );
     t3b.setTextColor(0xFFD6D6F0);
     t3b.setTextSize(13);
     t3b.setTypeface(Typeface.MONOSPACE);
