@@ -34,7 +34,6 @@ public class NotifListener extends NotificationListenerService {
             if (sbn.getNotification().extras != null) {
                 CharSequence t = sbn.getNotification().extras.getCharSequence("android.title");
                 CharSequence b = sbn.getNotification().extras.getCharSequence("android.text");
-//              if (t != null) title = t.toString().trim();
                 if (t != null) title = t.toString().trim().replaceFirst("^[^\\p{L}]+", "");
                 if (b != null) text  = b.toString().trim();
             }
@@ -45,9 +44,11 @@ public class NotifListener extends NotificationListenerService {
             // Anti-doublon
             String key = pkg + "|" + title + "|" + text;
             long now = System.currentTimeMillis();
-            Long last = lastSent.get(key);
-            if (last != null && (now - last) < DEDUP_MS) continue;
-            lastSent.put(key, now);
+            synchronized (lastSent) {
+                Long last = lastSent.get(key);
+                if (last != null && (now - last) < DEDUP_MS) continue;
+                lastSent.put(key, now);
+            }
 
             final String json = "{\"app\":" + escapeJson(pkg)
                     + ",\"title\":" + escapeJson(title)
