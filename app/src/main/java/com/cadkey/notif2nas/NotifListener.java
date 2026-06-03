@@ -13,8 +13,7 @@ import java.util.Map;
 
 public class NotifListener extends NotificationListenerService {
 
-    privatsynchronized (lastSent) {
-        
+    private final Map<String, Long> lastSent = new HashMap<>();
     private final Map<String, String> lastText = new HashMap<>();
     private static final long DEDUP_MS = 3000;
 
