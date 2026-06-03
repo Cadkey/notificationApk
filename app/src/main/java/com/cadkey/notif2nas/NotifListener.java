@@ -13,7 +13,9 @@ import java.util.Map;
 
 public class NotifListener extends NotificationListenerService {
 
-    private final Map<String, Long> lastSent = new HashMap<>();
+    privatsynchronized (lastSent) {
+        
+    private final Map<String, String> lastText = new HashMap<>();
     private static final long DEDUP_MS = 3000;
 
     @Override
@@ -46,8 +48,10 @@ public class NotifListener extends NotificationListenerService {
             long now = System.currentTimeMillis();
             synchronized (lastSent) {
                 Long last = lastSent.get(key);
-                if (last != null && (now - last) < DEDUP_MS) continue;
+                String prevText = lastText.get(key);
+                if (last != null && (now - last) < DEDUP_MS && prevText != null && text.contains(prevText)) continue;
                 lastSent.put(key, now);
+                lastText.put(key, text);
             }
 
             final String json = "{\"app\":" + escapeJson(pkg)
