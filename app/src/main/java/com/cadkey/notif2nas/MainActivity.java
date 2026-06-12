@@ -178,6 +178,34 @@ public class MainActivity extends Activity {
         });
         root.addView(btnAdd);
 
+        addSpace(root, 28);
+
+        // GPS
+        root.addView(makeSection("Localisation GPS"));
+
+        EditText etGpsUrl = makeField("URL GPS (ex: https://ext.cadkey.synology.me/gps.php)");
+        etGpsUrl.setText(prefs.getString("gps_url", ""));
+        root.addView(etGpsUrl);
+        addSpace(root, 10);
+
+        EditText etGpsToken = makeField("Token GPS (optionnel)");
+        etGpsToken.setText(prefs.getString("gps_token", ""));
+        root.addView(etGpsToken);
+        addSpace(root, 16);
+
+        Button btnGpsSave = makeBtn("Sauver GPS", ACCENT, 0f);
+        btnGpsSave.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        btnGpsSave.setOnClickListener(v -> {
+            prefs.edit()
+                    .putString("gps_url", etGpsUrl.getText().toString().trim())
+                    .putString("gps_token", etGpsToken.getText().toString().trim())
+                    .apply();
+            startService(new Intent(this, GpsService.class));
+            Toast.makeText(this, "GPS sauvegardé", Toast.LENGTH_SHORT).show();
+        });
+        root.addView(btnGpsSave);
+
         addSpace(root, 48);
 
         // Footer
