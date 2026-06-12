@@ -33,5 +33,10 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".GpsService"
+            android:foregroundServiceType="location"
+            android:exported="false" />
+
     </application>
 </manifest>
