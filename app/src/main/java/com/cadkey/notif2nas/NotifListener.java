@@ -43,7 +43,7 @@ public class NotifListener extends NotificationListenerService {
             if (title.isEmpty() && text.isEmpty()) continue;
 
             // Anti-doublon
-            String key = pkg + "|" + title + "|" + text;
+            String key = pkg + "|" + title;
             long now = System.currentTimeMillis();
             synchronized (lastSent) {
                 Long last = lastSent.get(key);
