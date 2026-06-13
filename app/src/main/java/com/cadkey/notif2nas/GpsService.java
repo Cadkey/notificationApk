@@ -56,6 +56,10 @@ public class GpsService extends Service {
             fusedClient.requestLocationUpdates(request, locationCallback, getMainLooper());
         } catch (SecurityException ignored) {}
 
+        fusedClient.getLastLocation().addOnSuccessListener(loc -> {
+            if (loc != null) onLocationChanged(loc);
+        });
+
         return START_STICKY;
     }
 
