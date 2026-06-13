@@ -39,6 +39,9 @@ public class GpsService extends Service implements LocationListener {
                     50f,              // 50m minimum
                     this
             );
+        // Envoyer immédiatement la dernière position connue
+            Location last = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (last != null) onLocationChanged(last);
         } catch (SecurityException ignored) {}
 
         return START_STICKY;
