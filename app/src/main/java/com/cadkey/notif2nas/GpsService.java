@@ -55,10 +55,19 @@ public class GpsService extends Service {
 
         try {
             fusedClient.requestLocationUpdates(request, locationCallback, getMainLooper());
-            fusedClient.getLastLocation().addOnSuccessListener(loc -> {
-                if (loc != null) onLocationChanged(loc);
-            });
         } catch (SecurityException ignored) {}
+
+        fusedClient.getLastLocation().addOnSuccessListener(loc -> {
+            if (loc != null) {
+                onLocationChanged(loc);
+            } else {
+                LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+                try {
+                    Location net = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    if (net != null) onLocationChanged(net);
+                } catch (SecurityException ignored) {}
+            }
+        });
 
         return START_STICKY;
     }
