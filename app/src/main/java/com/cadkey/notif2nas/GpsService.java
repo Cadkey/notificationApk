@@ -24,7 +24,6 @@ import java.nio.charset.StandardCharsets;
 public class GpsService extends Service {
 
     private static final String CHANNEL_ID = "gps_channel";
-    private static boolean running = false;
     private FusedLocationProviderClient fusedClient;
     private LocationCallback locationCallback;
     private long lastSentTime = 0;
@@ -32,34 +31,36 @@ public class GpsService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         createNotificationChannel();
-        if (running) return START_STICKY;
-        running = true;
 
-        Notification notif = new Notification.Builder(this, CHANNEL_ID)
-                .setContentTitle("Notif2Nas")
-                .setContentText("Localisation active")
-                .setSmallIcon(android.R.drawable.ic_menu_mylocation)
-                .build();
-        startForeground(1, notif);
+        if (fusedClient == null) {
+            Notification notif = new Notification.Builder(this, CHANNEL_ID)
+                    .setContentTitle("Notif2Nas")
+                    .setContentText("Localisation active")
+                    .setSmallIcon(android.R.drawable.ic_menu_mylocation)
+                    .build();
+            startForeground(1, notif);
 
-        fusedClient = LocationServices.getFusedLocationProviderClient(this);
+            fusedClient = LocationServices.getFusedLocationProviderClient(this);
 
-        LocationRequest request = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5 * 60 * 1000L)
-                .setMinUpdateDistanceMeters(50f)
-                .build();
+            LocationRequest request = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5 * 60 * 1000L)
+                    .setMinUpdateDistanceMeters(50f)
+                    .build();
 
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult result) {
-                if (result == null) return;
-                onLocationChanged(result.getLastLocation());
-            }
-        };
+            locationCallback = new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult result) {
+                    if (result == null) return;
+                    onLocationChanged(result.getLastLocation());
+                }
+            };
 
-        try {
-            fusedClient.requestLocationUpdates(request, locationCallback, getMainLooper());
-        } catch (SecurityException ignored) {}
+            try {
+                fusedClient.requestLocationUpdates(request, locationCallback, getMainLooper());
+            } catch (SecurityException ignored) {}
+        }
 
+        // Toujours envoyer au démarrage et sur Sauver GPS
+        lastSentTime = 0;
         fusedClient.getLastLocation().addOnSuccessListener(loc -> {
             if (loc != null) {
                 onLocationChanged(loc);
@@ -120,9 +121,9 @@ public class GpsService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        running = false;
         if (fusedClient != null && locationCallback != null)
             fusedClient.removeLocationUpdates(locationCallback);
+        fusedClient = null;
     }
 
     @Override public IBinder onBind(Intent intent) { return null; }
