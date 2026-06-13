@@ -7,6 +7,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.location.LocationManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -60,7 +61,15 @@ public class GpsService extends Service {
         } catch (SecurityException ignored) {}
 
         fusedClient.getLastLocation().addOnSuccessListener(loc -> {
-            if (loc != null) onLocationChanged(loc);
+            if (loc != null) {
+                onLocationChanged(loc);
+            } else {
+                LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+                try {
+                    Location net = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    if (net != null) onLocationChanged(net);
+                } catch (SecurityException ignored) {}
+            }
         });
 
         return START_STICKY;
