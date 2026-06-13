@@ -183,12 +183,12 @@ public class MainActivity extends Activity {
         // GPS
         root.addView(makeSection("Localisation GPS"));
 
-        EditText etGpsUrl = makeField("URL GPS (ex: https://ext.cadkey.synology.me/gps.php)");
+        EditText etGpsUrl = makeField("URL (ex: https://app.mydomain/locate.php)");
         etGpsUrl.setText(prefs.getString("gps_url", ""));
         root.addView(etGpsUrl);
         addSpace(root, 10);
 
-        EditText etGpsToken = makeField("Token GPS (optionnel)");
+        EditText etGpsToken = makeField("Token (optionnel) a-z A-Z 0-9 - _");
         etGpsToken.setText(prefs.getString("gps_token", ""));
         root.addView(etGpsToken);
         addSpace(root, 16);
