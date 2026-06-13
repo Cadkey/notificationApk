@@ -62,7 +62,6 @@ public class GpsService extends Service {
         return START_STICKY;
     }
 
-    @Override
     public void onLocationChanged(Location loc) {
         SharedPreferences prefs = getSharedPreferences("notif2nas", MODE_PRIVATE);
         String url   = prefs.getString("gps_url", "");
