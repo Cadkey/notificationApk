@@ -23,6 +23,7 @@ import java.nio.charset.StandardCharsets;
 public class GpsService extends Service {
 
     private static final String CHANNEL_ID = "gps_channel";
+    private static boolean running = false;
     private FusedLocationProviderClient fusedClient;
     private LocationCallback locationCallback;
     private long lastSentTime = 0;
@@ -30,7 +31,9 @@ public class GpsService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         createNotificationChannel();
-        if (fusedClient != null) return START_STICKY;
+        if (running) return START_STICKY;
+        running = true;
+
         Notification notif = new Notification.Builder(this, CHANNEL_ID)
                 .setContentTitle("Notif2Nas")
                 .setContentText("Localisation active")
@@ -108,6 +111,7 @@ public class GpsService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        running = false;
         if (fusedClient != null && locationCallback != null)
             fusedClient.removeLocationUpdates(locationCallback);
     }
