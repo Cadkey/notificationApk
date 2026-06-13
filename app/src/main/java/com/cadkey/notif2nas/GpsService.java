@@ -7,8 +7,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -27,6 +25,7 @@ public class GpsService extends Service {
     private static final String CHANNEL_ID = "gps_channel";
     private FusedLocationProviderClient fusedClient;
     private LocationCallback locationCallback;
+    private long lastSentTime = 0;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -57,22 +56,12 @@ public class GpsService extends Service {
             fusedClient.requestLocationUpdates(request, locationCallback, getMainLooper());
         } catch (SecurityException ignored) {}
 
-        fusedClient.getLastLocation().addOnSuccessListener(loc -> {
-            if (loc != null) {
-                onLocationChanged(loc);
-            } else {
-                LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
-                try {
-                    Location net = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                    if (net != null) onLocationChanged(net);
-                } catch (SecurityException ignored) {}
-            }
-        });
-
         return START_STICKY;
     }
 
     public void onLocationChanged(Location loc) {
+        if (loc.getTime() == lastSentTime) return;
+        lastSentTime = loc.getTime();
         SharedPreferences prefs = getSharedPreferences("notif2nas", MODE_PRIVATE);
         String url   = prefs.getString("gps_url", "");
         String token = prefs.getString("gps_token", "");
