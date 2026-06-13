@@ -9,6 +9,12 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 import android.os.IBinder;
 
 import java.io.OutputStream;
@@ -16,10 +22,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-public class GpsService extends Service implements LocationListener {
+public class GpsService extends Service {
 
     private static final String CHANNEL_ID = "gps_channel";
-    private LocationManager locationManager;
+    private FusedLocationProviderClient fusedClient;
+    private LocationCallback locationCallback;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -31,17 +38,25 @@ public class GpsService extends Service implements LocationListener {
                 .build();
         startForeground(1, notif);
 
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        fusedClient = LocationServices.getFusedLocationProviderClient(this);
+
+        LocationRequest request = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5 * 60 * 1000L)
+                .setMinUpdateDistanceMeters(50f)
+                .build();
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult result) {
+                if (result == null) return;
+                onLocationChanged(result.getLastLocation());
+            }
+        };
+
         try {
-            locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    5 * 60 * 1000L,  // 5 min minimum
-                    50f,              // 50m minimum
-                    this
-            );
-        // Envoyer immédiatement la dernière position connue
-            Location last = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (last != null) onLocationChanged(last);
+            fusedClient.requestLocationUpdates(request, locationCallback, getMainLooper());
+            fusedClient.getLastLocation().addOnSuccessListener(loc -> {
+                if (loc != null) onLocationChanged(loc);
+            });
         } catch (SecurityException ignored) {}
 
         return START_STICKY;
@@ -88,7 +103,12 @@ public class GpsService extends Service implements LocationListener {
         getSystemService(NotificationManager.class).createNotificationChannel(ch);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (fusedClient != null && locationCallback != null)
+            fusedClient.removeLocationUpdates(locationCallback);
+    }
+
     @Override public IBinder onBind(Intent intent) { return null; }
-    @Override public void onProviderEnabled(String p) {}
-    @Override public void onProviderDisabled(String p) {}
 }
