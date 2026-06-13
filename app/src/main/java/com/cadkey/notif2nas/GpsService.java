@@ -31,6 +31,7 @@ public class GpsService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         createNotificationChannel();
+        if (fusedClient != null) return START_STICKY;
         Notification notif = new Notification.Builder(this, CHANNEL_ID)
                 .setContentTitle("Notif2Nas")
                 .setContentText("Localisation active")
